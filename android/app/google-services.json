@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "898230258411",
+    "firebase_url": "https://proyecto-dsp-2023-default-rtdb.firebaseio.com",
+    "project_id": "proyecto-dsp-2023",
+    "storage_bucket": "proyecto-dsp-2023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898230258411:android:970d3430c71e0d977dccae",
+        "android_client_info": {
+          "package_name": "com.lacuponerareact"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "898230258411-4l6p8u7k5hjrjl06qisghv4v4df049kg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lacuponerareact",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "898230258411-477bfkj52e0uvqrab8e5498h3dp2vtpa.apps.googleusercontent.com",
+          "client_type": 1
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKQIKcnOljSYElBhnKNfukZhbMpl53MF0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "898230258411-477bfkj52e0uvqrab8e5498h3dp2vtpa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
