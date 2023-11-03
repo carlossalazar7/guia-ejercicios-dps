@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:898230258411:android:74df5211d02edcb87dccae",
+        "android_client_info": {
+          "package_name": "com.guiaejercicios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "898230258411-bo6knolghhnqf9pe6t5f95epck8tk7ui.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.guiaejercicios",
+            "certificate_hash": "8a48061b2df4c35cd25ca4844b7b0ef482caa859"
+          }
+        },
+        {
+          "client_id": "898230258411-477bfkj52e0uvqrab8e5498h3dp2vtpa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKQIKcnOljSYElBhnKNfukZhbMpl53MF0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "898230258411-477bfkj52e0uvqrab8e5498h3dp2vtpa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:898230258411:android:970d3430c71e0d977dccae",
         "android_client_info": {
           "package_name": "com.lacuponerareact"
@@ -24,7 +61,7 @@
         },
         {
           "client_id": "898230258411-477bfkj52e0uvqrab8e5498h3dp2vtpa.apps.googleusercontent.com",
-          "client_type": 1
+          "client_type": 3
         }
       ],
       "api_key": [
