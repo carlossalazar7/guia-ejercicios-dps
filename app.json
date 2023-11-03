@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "guia-ejercicios",
+    "slug": "guia-ejercicios",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "guia-ejercicios"
+}
