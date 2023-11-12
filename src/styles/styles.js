@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   container: {
-    paddingTop: 50,
+    paddingTop: 100,
     justifyContent: 'center',
   },
   container2: { 

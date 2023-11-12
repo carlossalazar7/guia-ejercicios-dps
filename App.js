@@ -1,19 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import { StyleSheet, Text, View } from 'react-native';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { View } from 'react-native';
 import variables from './src/utils/variables';
 import { styles } from './src/styles/styles';
-import SocialNetworks from './src/login/social.networks.component';
-import HomePage from './src/components/home.component';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import FormComponent from './src/login/form.component';
+import { auth } from './src/utils/firebase';
+import MyTabs from './src/components/tab.component';
 
 export default function App() {
   const [usuario, setUsuario] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
+
     GoogleSignin.configure({
       webClientId: variables.WEBCLIENTID,
       offlineAccess: false
@@ -31,65 +33,40 @@ export default function App() {
     }
   }
 
-  const googleLogin = async () => {
+  async function logInBase() {
     try {
-      console.log("TRYING CONNECTION TO GOOGLE!!")
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-
-      setUsuario(userInfo.user);
-      console.log("userinfo", usuario);
-      setIsLoggedIn(true);
-
+      console.log("LOGIN BASE, usuario " + username + " pass " + password);
+      auth.signInWithEmailAndPassword(username, password)
+        .then((userCredential) => {
+          console.log(userCredential);
+          setUsuario(userCredential);
+          setIsLoggedIn(true);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log(error)
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log(error)
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log(error)
-      } else {
-        console.log(error);
-      }
+      console.log('Something else went wrong... ', error.toString())
     }
-  };
-
-
-  function MyTabs() {
-    return (
-      <Tab.Navigator>
-
-        <Tab.Screen name="Home"
-          options={{
-            title: 'Home',
-            activeTintColor: 'white',
-            inactiveTintColor: '#d9d9d9',
-            tabBarIcon: () => {
-              return (
-                <Image style={{ width: 25, height: 25 }}
-                  source={require('./src/img/home.png')} />
-              );
-            },
-          }}
-          component={HomePage} />
-      </Tab.Navigator>
-    );
   }
+
 
 
   if (isLoggedIn === false) {
     return (
       <View style={styles.container}>
-        <SocialNetworks
-          googleLogin={googleLogin} />
+        <FormComponent
+          setUsername={setUsername}
+          setPassword={setPassword}
+          logInBase={logInBase}
+        />
       </View>
     )
 
-  }  else if (isLoggedIn === true) {
+  } else if (isLoggedIn === true) {
     return (
-      <NavigationContainer>
-        <MyTabs />
-      </NavigationContainer>);
+      <MyTabs />
+    );
   }
 
 }
