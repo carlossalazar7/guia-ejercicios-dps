@@ -1,28 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, ScrollView } from 'react-native';
+import { View, Text, TextInput, Button, ScrollView, Platform, DatePickerIOS } from 'react-native';
 import { Formik } from 'formik';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { styles } from './styles';
 import { validationSchema } from './form.cita.component';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 
 
-function calcularEdad(fechaNacimiento) {
-    const fechaActual = new Date();
-    const fechaNac = new Date(fechaNacimiento);
 
-    let edad = fechaActual.getFullYear() - fechaNac.getFullYear();
-    const mesActual = fechaActual.getMonth();
-    const mesNacimiento = fechaNac.getMonth();
-
-    if (mesActual < mesNacimiento || (mesActual === mesNacimiento && fechaActual.getDate() < fechaNac.getDate())) {
-        edad--;
-    }
-
-    return edad;
-}
 
 // Ejemplo de uso:
 /*
@@ -38,35 +26,36 @@ export const FormularioCita = ({ onSubmit }) => {
 
     //   useEffect({},[genero])
     const [genero, setGenero] = useState('Masculino');
-
-    const pickerItems = [
-        { label: 'Masculino', value: 'Masculino' },
-        { label: 'Femenino', value: 'Femenino' },
-    ];
+    const [date, setDate] = useState(new Date());
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [isDatePicketVisible, setIsDatePicketVisible] = useState(false);
 
     const handleGeneroChange = (value) => {
         setGenero(value);
         validationSchema.genero = genero;
     };
+   
 
-    const [isDatePicketVisible, setIsDatePicketVisible] = useState(true);
+    const handleDateChange = (event, selectedDate) => {
+        setShowDatePicker(Platform.OS === 'ios');
+        if (selectedDate !== undefined) {
+            setDate(selectedDate);
+            setIsDatePicketVisible(false);
+        }
+    };
 
     const hideDatePicker = () => {
         setIsDatePicketVisible(false);
     };
-    const showDatePicker = () => {
+
+
+
+    const showDatePickerModal = () => {
         setIsDatePicketVisible(true);
+        setShowDatePicker(true)
     };
 
-    const handlerConfirm = (date) => {
-        validationSchema.fechaNacimiento = date;
-        const dateBirth = date;
-        dateBirth.setHours(0);
-        dateBirth.setMinutes(0);
-        dateBirth.setSeconds(0);
-        setFormData({ ...formData, dateBirth });
-        hideDatePicker();
-    };
+
 
     return (
         <>
@@ -77,11 +66,11 @@ export const FormularioCita = ({ onSubmit }) => {
                         initialValues={{
                             nombre: '',
                             apellido: '',
-                            genero: '',
+                            genero: genero,
                             dui: '',
                             nit: '',
                             direccion: '',
-                            fechaNacimiento: '',
+                            fechaNacimiento: date.toDateString(),
                             telefono: '',
                             celular: '',
                             email: '',
@@ -179,27 +168,37 @@ export const FormularioCita = ({ onSubmit }) => {
                                 </View>
                                 <View>
                                     <Text>fecha nacimiento:</Text>
-                                    <TextInput
-                                        style={{ backgroundColor: '#fff', margin: 5 }}
-                                        onChangeText={handleChange('fechaNacimiento')}
-                                        onBlur={handleBlur('fechaNacimiento')}
-                                        value={values.fechaNacimiento} />
-                                    {touched.fechaNacimiento && errors.fechaNacimiento && <Text style={{ color: 'red' }}>
-                                        {errors.fechaNacimiento}
-                                    </Text>}
+
+                                    <Button title="Select Date" onPress={showDatePickerModal} />
+                                    {Platform.OS === 'ios' && (
+                                        <DateTimePicker
+                                            value={date}
+                                            mode="date"
+                                            display="spinner"
+                                            onChange={handleDateChange}
+                                        />
+                                    )}
+                                    {Platform.OS === 'android' && showDatePicker && (
+                                        <DateTimePicker
+                                            value={date}
+                                            mode="date"
+                                            display="default"
+                                            onChange={handleDateChange}
+                                        />
+                                    )}
+
                                 </View>
 
-                                <DateTimePickerModal
-                                    isVisible={isDatePicketVisible}
-                                    mode="date"
-                                    onConfirm={handlerConfirm}
-                                    onCancel={hideDatePicker} />
+
 
                                 <View style={{ marginBottom: 50 }}>
                                     <Text>genero:</Text>
                                     <Picker
                                         selectedValue={genero}
                                         onValueChange={(itemValue) => handleGeneroChange(itemValue)}
+                                        onChangeText={handleChange('genero')}
+                                        onBlur={handleBlur('genero')}
+                                        value={values.genero}
                                         style={styles.picker}
                                     >
                                         <Picker.Item label="Masculino" value="Masculino" />

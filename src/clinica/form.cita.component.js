@@ -21,8 +21,7 @@ export const validationSchema = yup.object().shape({
 export const FormAddNewPaciente = ({ navigation: { goBack , navigate} }) => {
     const onSubmit = (values) => {
         // Aquí puedes manejar la lógica para enviar los datos del formulario
-        console.log(values);
-        navigate('previewcita', validationSchema);
+        navigate('previewcita', values);
     };
 
     return (
