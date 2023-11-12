@@ -9,7 +9,7 @@ import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import CitasHomeComponent from '../clinica/home.citas.component';
 import PantallaB from '../clinica/preview.cita.component';
 import { FormAddNewPaciente } from '../clinica/form.cita.component';
-import { FormularioCita } from '../clinica/FormularioCita';
+import { FormularioCita } from '../clinica/FormularioCita.component';
 import IpInfoComponent from '../consultaip/consultaip.component';
 
 

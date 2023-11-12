@@ -1,5 +1,5 @@
-import { FormCita } from './FormularioCita';
-import { FormularioCita } from './FormularioCita';
+import { FormCita } from './FormularioCita.component';
+import { FormularioCita } from './FormularioCita.component';
 import { View, Button } from 'react-native';
 import * as yup from 'yup';
 
