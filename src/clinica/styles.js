@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
         marginBottom: 5,
       },
       picker: {
-        height: 30,
+        height: 10,
         backgroundColor:'#fff',
         borderColor: 'gray',
       },
