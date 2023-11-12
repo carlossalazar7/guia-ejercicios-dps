@@ -1,4 +1,5 @@
 import { FormCita } from './FormularioCita.component';
+import { useState } from 'react';
 import { FormularioCita } from './FormularioCita.component';
 import { View, Button } from 'react-native';
 import * as yup from 'yup';
@@ -18,12 +19,32 @@ export const validationSchema = yup.object().shape({
     */
 });
 
-export const FormAddNewPaciente = ({ navigation: { goBack , navigate} }) => {
+
+function convertirAFechaYYYYMMDD(cadenaFecha) {
+    const fecha = new Date(cadenaFecha);
+
+    const año = fecha.getFullYear();
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Meses son zero-based
+    const dia = String(fecha.getDate()).padStart(2, '0');
+
+    return `${año}-${mes}-${dia}`;
+}
+
+
+export const FormAddNewPaciente = ({ navigation: { goBack, navigate } }) => {
+    
     const onSubmit = (values) => {
-        // Aquí puedes manejar la lógica para enviar los datos del formulario
-        navigate('previewcita', values);
+        let fechaNac = convertirAFechaYYYYMMDD(fechaN);
+        console.log("fecha nacimiento -> " + convertirAFechaYYYYMMDD(fechaNac));
+        console.log(values);
+        navigate('previewcita', {
+            form: values,
+            fechaNac: fechaNac
+        });
     };
 
+    const [fechaN, setFechaN] = useState(null);
+    const [fechaNacimientoFormated, setFechaNacimientoFormated] = useState(null);
     return (
         <>
 
@@ -31,7 +52,8 @@ export const FormAddNewPaciente = ({ navigation: { goBack , navigate} }) => {
                 <Button onPress={() => goBack()} title="Regresar" />
             </View>
             <FormularioCita
-                onSubmit={onSubmit} />
+                onSubmit={onSubmit}
+                setFechaN={setFechaN} />
         </>
 
     )

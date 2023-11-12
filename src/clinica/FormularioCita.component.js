@@ -8,11 +8,7 @@ import { validationSchema } from './form.cita.component';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
-
-
-
-
-export const FormularioCita = ({ onSubmit }) => {
+export const FormularioCita = ({ onSubmit , setFechaN}) => {
 
     function formatDateToYYYYMMDD() {
         const year = date.getFullYear();
@@ -23,7 +19,7 @@ export const FormularioCita = ({ onSubmit }) => {
     }
 
     useEffect(() => {
-
+        setFechaN(date)
     }, [genero, date])
 
 
