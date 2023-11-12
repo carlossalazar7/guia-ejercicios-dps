@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, Image, Button } from 'react-native';
+import { View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomePage from './home.component';
@@ -7,8 +7,9 @@ import CreateeAccount from '../login/create.user.component';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import CitasHomeComponent from '../clinica/home.citas.component';
-import FormularioCita from '../clinica/form.cita.component';
-
+import PantallaB from '../clinica/preview.cita.component';
+import { FormAddNewPaciente } from '../clinica/form.cita.component';
+import { FormularioCita } from '../clinica/FormularioCita';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,7 +47,23 @@ function HomeTabs() {
                         <AntDesign name="adduser" size={24} color="black" />
                     ),
                 }}
+                component={FormAddNewPaciente} />
+                <Tab.Screen name="formcita"
+                options={{
+                    tabBarLabel: 'formcita',
+                    tabBarIcon: ({ color, size }) => (
+                        <AntDesign name="adduser" size={24} color="black" />
+                    ),
+                }}
                 component={FormularioCita} />
+            <Tab.Screen name="previewcita"
+                options={{
+                    tabBarLabel: 'previewcita',
+                    tabBarIcon: ({ color, size }) => (
+                        <AntDesign name="adduser" size={24} color="black" />
+                    ),
+                }}
+                component={PantallaB} />
 
         </Tab.Navigator>
     );
