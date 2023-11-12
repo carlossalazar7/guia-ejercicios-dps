@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, ScrollView, Platform, DatePickerIOS } from 'react-native';
 import { Formik } from 'formik';
 import { Picker } from '@react-native-picker/picker';
@@ -12,19 +12,21 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 
-// Ejemplo de uso:
-/*
-    const fechaNacimiento = '1990-01-15'; // Formato: YYYY-MM-DD
-    const edad = calcularEdad(fechaNacimiento);
-    console.log(`La edad es ${edad} años.`);
-*/
-
-
-
 export const FormularioCita = ({ onSubmit }) => {
 
+    function formatDateToYYYYMMDD() {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
+        const day = String(date.getDate()).padStart(2, '0');
+    
+        return `${year}-${month}-${day}`;
+    }
 
-    //   useEffect({},[genero])
+    useEffect(() => {
+
+    }, [genero, date])
+
+
     const [genero, setGenero] = useState('Masculino');
     const [date, setDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -34,9 +36,10 @@ export const FormularioCita = ({ onSubmit }) => {
         setGenero(value);
         validationSchema.genero = genero;
     };
-   
+
 
     const handleDateChange = (event, selectedDate) => {
+        console.log(selectedDate);
         setShowDatePicker(Platform.OS === 'ios');
         if (selectedDate !== undefined) {
             setDate(selectedDate);
@@ -70,7 +73,7 @@ export const FormularioCita = ({ onSubmit }) => {
                             dui: '',
                             nit: '',
                             direccion: '',
-                            fechaNacimiento: date.toDateString(),
+                            fechaNacimiento: formatDateToYYYYMMDD(),
                             telefono: '',
                             celular: '',
                             email: '',

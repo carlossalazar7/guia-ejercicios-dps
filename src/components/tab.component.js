@@ -10,6 +10,8 @@ import CitasHomeComponent from '../clinica/home.citas.component';
 import PantallaB from '../clinica/preview.cita.component';
 import { FormAddNewPaciente } from '../clinica/form.cita.component';
 import { FormularioCita } from '../clinica/FormularioCita';
+import IpInfoComponent from '../consultaip/consultaip.component';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +50,7 @@ function HomeTabs() {
                     ),
                 }}
                 component={FormAddNewPaciente} />
-                <Tab.Screen name="formcita"
+            <Tab.Screen name="formcita"
                 options={{
                     tabBarLabel: 'formcita',
                     tabBarIcon: ({ color, size }) => (
@@ -73,6 +75,13 @@ export default function MyTabs() {
     return (
         <NavigationContainer>
             <Tab.Navigator>
+                <Tab.Screen name="consultaip"
+                    options={{
+                        tabBarLabel: 'consultaip',
+                        tabBarIcon: ({ color, size }) => (
+                            <AntDesign name="paperclip" size={24} color="black" />    ),
+                    }}
+                    component={IpInfoComponent} />
                 <Tab.Screen name="Clinica"
                     options={{
                         tabBarLabel: 'clinica',
