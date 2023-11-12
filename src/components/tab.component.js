@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomePage from './home.component';
+import RegistroEquipos from '../football/home.component';
 import CreateeAccount from '../login/create.user.component';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
@@ -103,10 +103,10 @@ export default function MyTabs() {
                     options={{
                         tabBarLabel: 'Home',
                         tabBarIcon: ({ color, size }) => (
-                            <Ionicons name="home" color={color} size={size} />
+                            <Ionicons name="football" size={24} color="black" />
                         ),
                     }}
-                    component={HomePage} />
+                    component={RegistroEquipos} />
             </Tab.Navigator>
         </NavigationContainer>
     );
