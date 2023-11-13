@@ -7,7 +7,6 @@ import * as yup from 'yup';
 export const validationSchema = yup.object().shape({
     nombre: yup.string().required('Campo obligatorio'),
     apellido: yup.string().required('Campo obligatorio'),
-    /*
     genero: yup.string().required('Campo obligatorio'),
     dui: yup.string().matches(/^\d{8}-\d{1}$/, 'Formato inválido').required('Campo obligatorio'),
     nit: yup.string().matches(/^\d{4}-\d{6}-\d{3}-\d{1}$/, 'Formato inválido').required('Campo obligatorio'),
@@ -16,7 +15,6 @@ export const validationSchema = yup.object().shape({
     telefono: yup.string().required('Campo obligatorio'),
     celular: yup.string().required('Campo obligatorio'),
     email: yup.string().email('Formato de correo inválido').required('Campo obligatorio'),
-    */
 });
 
 

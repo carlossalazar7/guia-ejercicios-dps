@@ -1,152 +1,152 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, ScrollView, Text } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { styles } from './styles';
-
 import axios from 'axios';
 
-const guardarEquipoEnMongoDB = async (equipo) => {
-    try {
-        const response = await axios.post('http://localhost:3000/equipos', equipo);
-        console.log(response.data); // Mensaje del servidor
-    } catch (error) {
-        console.error('Error al guardar el equipo en MongoDB:', error);
-    }
-};
-
-
-
-
-
-
 const RegistroEquipos = () => {
-    const [nombreEquipo, setNombreEquipo] = useState('');
-    const [facultad, setFacultad] = useState('');
-    const [anioCiclo, setAnioCiclo] = useState('');
-    const [torneo, setTorneo] = useState('');
-    const [jugadores, setJugadores] = useState([]);
+    const [equipo, setEquipo] = useState({
+        nombre: '',
+        facultad: '',
+        anoCiclo: '',
+        torneo: '',
+        integrantes: [],
+    });
 
-    const agregarJugador = () => {
-        // Agregar lógica para validar y agregar un jugador al equipo
-        // Puedes incluir aquí la lógica para verificar el mínimo y máximo de jugadores
-        const nuevoJugador = {
-            carnet: '',
-            nombres: '',
-            apellidos: '',
-            fechaNacimiento: '',
-            genero: '',
-            posicion: '',
-            numeroCamisa: '',
-        };
-        setJugadores([...jugadores, nuevoJugador]);
+    const [integrante, setIntegrante] = useState({
+        carnet: '',
+        nombres: '',
+        apellidos: '',
+        fechaNacimiento: '',
+        genero: 'masculino',
+        posicion: 'Portero',
+        numeroCamisa: '',
+    });
+
+    const guardarEquipoEnMongoDB = async (equipo) => {
+
+        await axios.post('http://10.0.2.2:3000/equipos', {
+            "nombreEquipo": equipo.nombre,
+            "facultad": equipo.facultad,
+            "anioCiclo": equipo.anioCiclo,
+            "torneo": equipo.torneo,
+            "jugadores": equipo.integrantes
+        }
+        )
+            .then(response => {
+                console.log('Response:', response.data);
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+            });
     };
 
-    const handleSubmit = () => {
-        // Agregar lógica para enviar los datos del equipo y jugadores a la base de datos o realizar acciones necesarias
-        console.log('Datos del equipo:', { nombreEquipo, facultad, anioCiclo, torneo });
-        console.log('Jugadores:', jugadores);
 
-        // Ejemplo de uso:
-        const nuevoEquipo = {
-            nombreEquipo: nombreEquipo,
-            facultad: facultad,
-            anioCiclo: anioCiclo,
-            torneo: torneo,
-            jugadores: jugadores
-        };
+    const handleEquipoChange = (campo, valor) => {
+        setEquipo({ ...equipo, [campo]: valor });
+    };
 
-        guardarEquipoEnMongoDB(nuevoEquipo);
+    const handleIntegranteChange = (campo, valor) => {
+        setIntegrante({ ...integrante, [campo]: valor });
+    };
 
+    const agregarIntegrante = () => {
+        setEquipo({ ...equipo, integrantes: [...equipo.integrantes, integrante] });
+        // Puedes realizar validaciones adicionales antes de agregar el integrante
+        // También puedes limpiar los campos después de agregar un integrante si es necesario
+    };
 
+    const registrarEquipo = () => {
+        console.log('Equipo registrado:', equipo);
+        guardarEquipoEnMongoDB(equipo);
     };
 
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                <Text style={styles.label}>Nombre del equipo:</Text>
-                <TextInput
-                    style={styles.input}
-                    value={nombreEquipo}
-                    onChangeText={(text) => setNombreEquipo(text)}
-                />
+        <>
+            <ScrollView scrollEventThrottle={16}>
+                <View style={styles.container}>
+                    <Text>Datos Generales del Equipo</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Nombre del equipo"
+                        value={equipo.nombre}
+                        onChangeText={(valor) => handleEquipoChange('nombre', valor)}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Facultad"
+                        value={equipo.facultad}
+                        onChangeText={(valor) => handleEquipoChange('facultad', valor)}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Año y Ciclo de inscripción"
+                        value={equipo.anoCiclo}
+                        onChangeText={(valor) => handleEquipoChange('anoCiclo', valor)}
+                    />
+                    <Picker
+                        selectedValue={equipo.torneo}
+                        style={styles.inputSelect}
+                        onValueChange={(valor) => handleEquipoChange('torneo', valor)}
+                    >
+                        <Picker.Item label="Masculino" value="masculino" />
+                        <Picker.Item label="Femenino" value="femenino" />
+                    </Picker>
 
-                <Text style={styles.label}>Facultad:</Text>
-                <TextInput
-                    style={styles.input}
-                    value={facultad}
-                    onChangeText={(text) => setFacultad(text)}
-                />
+                    <Text>Datos del Integrante</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Carnet del estudiante"
+                        value={integrante.carnet}
+                        onChangeText={(valor) => handleIntegranteChange('carnet', valor)}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Nombres"
+                        value={integrante.nombres}
+                        onChangeText={(valor) => handleIntegranteChange('nombres', valor)}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Apellidos"
+                        value={integrante.apellidos}
+                        onChangeText={(valor) => handleIntegranteChange('apellidos', valor)}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Fecha de nacimiento"
+                        value={integrante.fechaNacimiento}
+                        onChangeText={(valor) => handleIntegranteChange('fechaNacimiento', valor)}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Número de camisa"
+                        value={integrante.numeroCamisa}
+                        onChangeText={(valor) => handleIntegranteChange('numeroCamisa', valor)}
+                    />
+                    <Picker
+                        selectedValue={integrante.genero}
+                        style={styles.input}
+                        onValueChange={(valor) => handleIntegranteChange('genero', valor)}
+                    >
+                        <Picker.Item label="Masculino" value="masculino" />
+                        <Picker.Item label="Femenino" value="femenino" />
+                    </Picker>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Posicion"
+                        value={equipo.posicion}
+                        onChangeText={(valor) => handleIntegranteChange('posicion', valor)}
+                    />
 
-                <Text style={styles.label}>Año y ciclo de inscripción:</Text>
-                <TextInput
-                    style={styles.input}
-                    value={anioCiclo}
-                    onChangeText={(text) => setAnioCiclo(text)}
-                />
-
-                <Text style={styles.label}>Torneo (masculino o femenino):</Text>
-                <TextInput
-                    style={styles.input}
-                    value={torneo}
-                    onChangeText={(text) => setTorneo(text)}
-                />
-
-                <Text style={styles.label}>Jugadores:</Text>
-                {jugadores.map((jugador, index) => (
-                    <View key={index}>
-                        {/* Componente para registrar datos del jugador */}
-                        <Text>Jugador {index + 1}</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Carnet"
-                            value={jugador.carnet}
-                            onChangeText={(text) => setJugadores({ ...nuevoJugador, carnet: text })}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Nombres"
-                            value={jugador.nombres}
-                            onChangeText={(text) => setJugadores({ ...nuevoJugador, nombres: text })}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Apellidos"
-                            value={jugador.apellidos}
-                            onChangeText={(text) => setJugadores({ ...nuevoJugador, apellidos: text })}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Fecha Nacimiento"
-                            value={jugador.fechaNacimiento}
-                            onChangeText={(text) => setJugadores({ ...nuevoJugador, fechaNacimiento: text })}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Genero"
-                            value={jugador.genero}
-                            onChangeText={(text) => setJugadores({ ...nuevoJugador, genero: text })}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Posicion"
-                            value={jugador.posicion}
-                            onChangeText={(text) => setJugadores({ ...nuevoJugador, posicion: text })}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Numero camisa"
-                            value={jugador.numeroCamisa}
-                            onChangeText={(text) => setJugadores({ ...nuevoJugador, numeroCamisa: text })}
-                        />
-                    </View>
-                ))}
-                <View style={styles.botones}>
-                    <Button title="Agregar Jugador" style={styles.boton} onPress={agregarJugador} />
-                    <Button title="Registrar Equipo" onPress={handleSubmit} />
+                    <Button title="Agregar Integrante" onPress={agregarIntegrante} />
+                    <Button title="Registrar Equipo" onPress={registrarEquipo} />
                 </View>
+            </ScrollView>
+        </>
 
-            </View>
-        </ScrollView>
     );
 };
+
 
 export default RegistroEquipos;

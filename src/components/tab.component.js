@@ -11,7 +11,7 @@ import PantallaB from '../clinica/preview.cita.component';
 import { FormAddNewPaciente } from '../clinica/form.cita.component';
 import { FormularioCita } from '../clinica/FormularioCita.component';
 import IpInfoComponent from '../consultaip/consultaip.component';
-
+import { HomeEquipos } from '../football/equipos.component';
 
 const Tab = createBottomTabNavigator();
 
@@ -28,6 +28,46 @@ function Clinica({ navigation }) {
             />
 
         </View>
+    );
+}
+
+function VerEquipos({ navigation }) {
+    return (
+        <View>
+
+            <Button
+                styles={{ margin: 5 }}
+                title="Ver Equipos"
+                onPress={() => navigation.navigate('verequipos')}
+            />
+            <RegistroEquipos />
+        </View>
+    );
+}
+
+function FootballTabs() {
+    return (
+        <Tab.Navigator screenOptions={{ tabBarStyle: { display: 'none' } }}>
+            <Tab.Screen name="registroequipo"
+                screenOptions={{ tabBarStyle: { display: 'none' }, tabBarShowLabel: false, }}
+                options={{
+                    tabBarShowLabel: false,
+                    tabBarLabel: 'registroequipo',
+                    tabBarIcon: ({ color, size }) => (
+                        <AntDesign name="adduser" size={24} color="black" />
+                    ),
+                }}
+                component={VerEquipos} />
+            <Tab.Screen name="verequipos"
+                options={{
+                    tabBarShowLabel: false,
+                    tabBarLabel: 'verequipos',
+                    tabBarIcon: ({ color, size }) => (
+                        <AntDesign name="adduser" size={24} color="black" />
+                    ),
+                }}
+                component={HomeEquipos} />
+        </Tab.Navigator>
     );
 }
 
@@ -79,7 +119,7 @@ export default function MyTabs() {
                     options={{
                         tabBarLabel: 'consultaip',
                         tabBarIcon: ({ color, size }) => (
-                            <AntDesign name="paperclip" size={24} color="black" />    ),
+                            <AntDesign name="paperclip" size={24} color="black" />),
                     }}
                     component={IpInfoComponent} />
                 <Tab.Screen name="Clinica"
@@ -106,7 +146,7 @@ export default function MyTabs() {
                             <Ionicons name="football" size={24} color="black" />
                         ),
                     }}
-                    component={RegistroEquipos} />
+                    component={FootballTabs} />
             </Tab.Navigator>
         </NavigationContainer>
     );
