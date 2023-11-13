@@ -35,7 +35,8 @@ export const FormularioCita = ({ onSubmit , setFechaN}) => {
 
 
     const handleDateChange = (event, selectedDate) => {
-        console.log(selectedDate);
+        console.log("fecha de nacimiento ->"+selectedDate);
+        setFechaN(selectedDate)
         setShowDatePicker(Platform.OS === 'ios');
         if (selectedDate !== undefined) {
             setDate(selectedDate);
