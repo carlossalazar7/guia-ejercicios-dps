@@ -83,6 +83,7 @@ app.delete('/equipos/:id', async (req, res) => {
       res.status(404).json({ message: 'Document not found' });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Error al eliminar el equipo' });
   }
 });

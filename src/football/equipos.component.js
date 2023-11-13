@@ -1,7 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { Table, Row } from 'react-native-table-component';
 import axios from 'axios';
+
+const renderButton = (index) => (
+    <TouchableOpacity onPress={() => handleButtonPress(index)}>
+        <View style={{ padding: 10, backgroundColor: '#2196F3' }}>
+            <Text style={{ color: '#fff' }}>Eliminar</Text>
+        </View>
+    </TouchableOpacity>
+);
+
+const handleButtonPress = (index) => {
+    // Handle button press for the row at the given index
+    console.log(`Button pressed for row ${index}`);
+    eliminar(index);
+    // Add your logic here
+};
+
+const eliminar = async (id) => {
+
+    console.log('http://10.0.2.2:3000/equipos/' + id);
+    await axios.delete('http://10.0.2.2:3000/equipos/' + id
+    )
+        .then(response => {
+            console.log('Response:', response.data);
+        })
+        .catch(error => {
+            console.log(error);
+            console.error('Error:', error.message);
+        });
+};
+
 
 export const HomeEquipos = ({ navigation: { goBack, navigate } }) => {
     const [datosEquipos, setDatosEquipos] = useState(null);
@@ -28,6 +58,7 @@ export const HomeEquipos = ({ navigation: { goBack, navigate } }) => {
         'Año y Ciclo',
         'Torneo',
         'Integrantes',
+        'Eliminar',
     ];
 
     // Datos para la tabla
@@ -36,7 +67,8 @@ export const HomeEquipos = ({ navigation: { goBack, navigate } }) => {
         equipo.facultad,
         equipo.anioCiclo,
         equipo.torneo,
-        equipo.jugadores.length // Mostrar la cantidad de integrantes
+        equipo.jugadores.length, // Mostrar la cantidad de integrantes,
+        renderButton(equipo._id)
     ]) : [];
 
     return (

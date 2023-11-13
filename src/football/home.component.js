@@ -28,7 +28,7 @@ const RegistroEquipos = () => {
         await axios.post('http://10.0.2.2:3000/equipos', {
             "nombreEquipo": equipo.nombre,
             "facultad": equipo.facultad,
-            "anioCiclo": equipo.anioCiclo,
+            "anioCiclo": equipo.anoCiclo,
             "torneo": equipo.torneo,
             "jugadores": equipo.integrantes
         }
